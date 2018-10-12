@@ -1,21 +1,37 @@
-[![codecov.io](https://codecov.io/github/sqshq/PiggyMetrics/coverage.svg?branch=master)](https://codecov.io/github/sqshq/PiggyMetrics?branch=master)
+[![codecov.io](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html)
 
 # RetailDiscountCalculator
 
 This is a Java Maven Applcation for Calculating PayinAmount Based on specifics Creteria provided below.
 
+1. User is Store employee 30% on Bill Amount 
+
+2. User is Affiliate  30% Discount on Bill Amount 
+
+3. If User is a Customer for 2 Years 5% Discount on Bill Amount .
+4. If Bill Amount is more than 100 each 100 will get 5% Discount.
+5. No Discount  for Grocery. 
+6. At a time user will get 1 type of Discount. 
+
 # System Requirements 
 
 JDK 1.8
+
 Maven
+
 IDE Eclipse(Optional)
+
 
 # Application Tools
 
 Java 1.8
+
 Eclipse Oxygen
+
 Maven 3
+
 Jacoco plugin for code Coverage
+
 Junit
 
 

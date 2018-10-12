@@ -29,6 +29,7 @@ public class PercentageAllocatorServiceImpl implements PercentageAllocatorServic
 	}
 
 	/**
+	 * In this method, Only one type of percentage is applied to a user based on Criteria.
 	 * @param BillPaymentInfo
 	 *            billPaymentInfo
 	 * @return double
@@ -54,6 +55,8 @@ public class PercentageAllocatorServiceImpl implements PercentageAllocatorServic
 	}
 
 	/**
+	 *In this method, based on count of 100s in Bill Amount, user will get 5% for each 100s.
+	 
 	 * @param BillPaymentInfo
 	 *            billPaymentInfo
 	 * @return double
@@ -64,7 +67,7 @@ public class PercentageAllocatorServiceImpl implements PercentageAllocatorServic
 			int comparisonValue = Double.compare(billPaymentInfo.getBillAmount(), 100);
 			if (comparisonValue > 0) {
 				Double hundreds = billPaymentInfo.getBillAmount() / 100;
-				return hundreds.intValue() * 5 / billPaymentInfo.getBillAmount() * 100;
+				return hundreds.intValue() * 5 ;
 			} else {
 				return 0.00;
 

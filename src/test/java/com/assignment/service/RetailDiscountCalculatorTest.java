@@ -137,13 +137,13 @@ public class RetailDiscountCalculatorTest {
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
 			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
 			user = new User(DEFAULT_KEY, DEFAULT_KEY, DEFAULT_KEY);
-			billPaymentInfo = new BillPaymentInfo(new Double(340));
+			billPaymentInfo = new BillPaymentInfo(new Double(990));
 			billPaymentInfo.setUser(user);
 			billPaymentInfo.setPurchaseItems(purchaseItems);
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
-			assertEquals(new Double(325), billPaymentInfo.getPayableAmount());
+			assertEquals(new Double(544.5), billPaymentInfo.getPayableAmount());
 		} catch (RetailDiscountCalculatorException exception) {
 			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
