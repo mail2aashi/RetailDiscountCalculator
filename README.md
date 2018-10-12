@@ -1,4 +1,4 @@
-[![codecov.io](https://codecov.io/github/sqshq/PiggyMetrics/coverage.svg?branch=master)](https://codecov.io/github/sqshq/PiggyMetrics?branch=master)
+[![codecov.io](75%)
 
 # RetailDiscountCalculator
 
