@@ -1,4 +1,4 @@
-[![codecov.io](75%)
+[![codecov.io](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html)
 
 # RetailDiscountCalculator
 
