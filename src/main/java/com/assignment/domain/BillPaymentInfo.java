@@ -6,7 +6,14 @@ public class BillPaymentInfo {
 	private Double payableAmount;
 	private Double percentage;
 	private User user;
-
+	private PurchaseItems purchaseItems;
+	
+	public PurchaseItems getPurchaseItems() {
+		return purchaseItems;
+	}
+	public void setPurchaseItems(PurchaseItems purchaseItems) {
+		this.purchaseItems = purchaseItems;
+	}
 	public User getUser() {
 		return user;
 	}

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PercentageAllocatorServiceImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">RetailDiscountCalculator</a> &gt; <a href="index.source.html" class="el_package">com.assignment.service.impl</a> &gt; <span class="el_source">PercentageAllocatorServiceImpl.java</span></div><h1>PercentageAllocatorServiceImpl.java</h1><pre class="source lang-java linenums">package com.assignment.service.impl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.assignment.domain.BillPaymentInfo;
+import com.assignment.constants.Constants;
+import com.assignment.exceptions.ErrorCode;
+import com.assignment.exceptions.RetailDiscountCalculatorException;
+import com.assignment.service.PercentageAllocatorService;
+
+/**
+ * @author ASHIF ASHRAF
+ * @version v1
+ * @since 2018 10 11 This Implementation class serving for Percentage Calculator
+ */
+public class PercentageAllocatorServiceImpl implements PercentageAllocatorService {
+<span class="fc" id="L21">	Map&lt;String, Double&gt; userPercentageMap = new HashMap&lt;String, Double&gt;();</span>
+<span class="fc" id="L22">	private static Logger log = LogManager.getLogger(PercentageAllocatorServiceImpl.class);</span>
+
+<span class="fc" id="L24">	public PercentageAllocatorServiceImpl() {</span>
+<span class="fc" id="L25">		userPercentageMap.put(Constants.IS_EMPLOYEE_KEY, Constants.IS_EMPLOYEE_VALUE);</span>
+<span class="fc" id="L26">		userPercentageMap.put(Constants.IS_AFFILIATE_KEY, Constants.IS_AFFILIATE_VALUE);</span>
+<span class="fc" id="L27">		userPercentageMap.put(Constants.IS_2YEARSCUSTOMER_KEY, Constants.IS_2YEARSCUSTOMER_VALUE);</span>
+<span class="fc" id="L28">		userPercentageMap.put(Constants.DEFAULT_KEY, Constants.DEFAULT_VALUE);</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * @param BillPaymentInfo
+	 *            billPaymentInfo
+	 * @return double
+	 * @see percentage
+	 */
+	public double getPercentage(BillPaymentInfo billPaymentInfo) throws RetailDiscountCalculatorException {
+		try {
+<span class="fc" id="L39">			double percentage = 0.00;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			if(billPaymentInfo.getPurchaseItems().getItemType().equals(Constants.GROCERY_VALUE))</span>
+<span class="fc" id="L41">				return percentage; </span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">			percentage = (userPercentageMap.get(billPaymentInfo.getUser().getIsCompanyEmployee())) == null ? percentage</span>
+<span class="fc" id="L43">					: userPercentageMap.get(billPaymentInfo.getUser().getIsCompanyEmployee());</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">			percentage = (percentage == 0.00) ? userPercentageMap.get(billPaymentInfo.getUser().getIsAffiliated())</span>
+<span class="fc" id="L45">					: percentage;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			percentage = (percentage == 0.00) ? userPercentageMap.get(billPaymentInfo.getUser().getIs2YearsCustomer())</span>
+<span class="fc" id="L47">					: percentage;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">			percentage = (percentage == 0.00) ? calculateBillAmountBasedPercentage(billPaymentInfo) : percentage;</span>
+<span class="fc" id="L49">			return percentage;</span>
+<span class="fc" id="L50">		} catch (Exception exception) {</span>
+<span class="fc" id="L51">			log.error(exception);</span>
+<span class="fc" id="L52">			throw new RetailDiscountCalculatorException(ErrorCode.TECH_ERROR, exception);</span>
+		}
+	}
+
+	/**
+	 * @param BillPaymentInfo
+	 *            billPaymentInfo
+	 * @return double
+	 * @see percentage
+	 */
+	private double calculateBillAmountBasedPercentage(BillPaymentInfo billPaymentInfo) {
+		try {
+<span class="fc" id="L64">			int comparisonValue = Double.compare(billPaymentInfo.getBillAmount(), 100);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (comparisonValue &gt; 0) {</span>
+<span class="fc" id="L66">				Double hundreds = billPaymentInfo.getBillAmount() / 100;</span>
+<span class="fc" id="L67">				return hundreds.intValue() * 5 / billPaymentInfo.getBillAmount() * 100;</span>
+			} else {
+<span class="fc" id="L69">				return 0.00;</span>
+
+			}
+<span class="nc" id="L72">		} catch (Exception exception) {</span>
+<span class="nc" id="L73">			log.error(exception);</span>
+<span class="nc" id="L74">			throw new RetailDiscountCalculatorException(ErrorCode.TECH_ERROR, exception);</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

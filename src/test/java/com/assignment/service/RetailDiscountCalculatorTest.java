@@ -1,7 +1,8 @@
-package com.assignment.testmain;
+package com.assignment.service;
 
+import static com.assignment.constants.Constants.DEFAULT_KEY;
+import static com.assignment.constants.Constants.GROCERY_VALUE;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -12,20 +13,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.assignment.domain.BillPaymentInfo;
+import com.assignment.domain.PurchaseItems;
 import com.assignment.domain.User;
-import com.assignment.exceptions.MyBusinessException;
-import com.assignment.service.PayableAmountCalculatorService;
-import com.assignment.service.PercentageAllocatorService;
+import com.assignment.exceptions.RetailDiscountCalculatorException;
 import com.assignment.service.impl.PayableAmountCalculatorServiceImpl;
 import com.assignment.service.impl.PercentageAllocatorServiceImpl;
-
+/**
+* @author ASHIF ASHRAF
+* @version v1
+* @since 2018 10 11 This Implementation class serving as  PayinAmount Calculator Various Test Methods
+*/
 public class RetailDiscountCalculatorTest {
 	private static Logger log = LogManager.getLogger(RetailDiscountCalculatorTest.class);
 	BillPaymentInfo billPaymentInfo = null;
 	User user = null;
 	User user2;
-	private BillPaymentInfo billPaymentInfo2;
-
+	private PurchaseItems purchaseItems;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -46,132 +49,156 @@ public class RetailDiscountCalculatorTest {
 	public void tearDown() throws Exception {
 		log.info("After single test case execution");
 	}
-
+	/**
+	 * to  get the  User is completed 2 years as loyal customer.
+	 * @see assertEquals
+	 */
 	@Test
-	public void isPayinAmountfor2YearsCustomer() {
+	public void getPayinAmountfor2YearsCustomer() {
 		log.info("is isPayoutAmountfor2YearsCustomer **** ");
 		try {
 			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
-
-			user = new User("D", "D", "2Y");
 			billPaymentInfo = new BillPaymentInfo(new Double(970.00));
+
+			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
+			billPaymentInfo.setPurchaseItems(purchaseItems);
+			user = new User(DEFAULT_KEY, DEFAULT_KEY, "2Y");
 			billPaymentInfo.setUser(user);
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage(billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
 			assertEquals(new Double(921.5), billPaymentInfo.getPayableAmount());
-		} catch (MyBusinessException exception) {
+		} catch (RetailDiscountCalculatorException exception) {
 			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
 		}
 	}
-
+	/**
+	 * to  get the payinamount If User is affiliate
+	 * @see assertEquals
+	 */
 	@Test
-	public void isPayinAmountforAffiliate() {
+	public void getPayinAmountforAffiliate() {
 		log.info("is isPayoutAmountforAffiliate **** ");
 		try {
 			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
-
-			user = new User("D", "A", "D");
+			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
+			user = new User(DEFAULT_KEY, "A", DEFAULT_KEY);
 			billPaymentInfo = new BillPaymentInfo(new Double(789));
 			billPaymentInfo.setUser(user);
+			billPaymentInfo.setPurchaseItems(purchaseItems);
 
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
 			assertEquals(new Double(710.1), billPaymentInfo.getPayableAmount());
-		} catch (MyBusinessException exception) {
+		} catch (RetailDiscountCalculatorException exception) {
 			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
 		}
 	}
-
+	/**
+	 * to  get the payinamount If User is employee of this organization 
+	 * @see assertEquals
+	 */
 	@Test
-	public void isPayinAmountforEmployee() {
+	public void getPayinAmountforEmployee() {
 		log.info("is isPayoutAmountforEmployee **** ");
 		try {
 			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
 
-			user = new User("E", "D", "D");
+			user = new User("E", DEFAULT_KEY, DEFAULT_KEY);
+			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
 			billPaymentInfo = new BillPaymentInfo(new Double(560));
 			billPaymentInfo.setUser(user);
+			billPaymentInfo.setPurchaseItems(purchaseItems);
+
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
 			assertEquals(new Double(392), billPaymentInfo.getPayableAmount());
-		} catch (MyBusinessException exception) {
+		} catch (RetailDiscountCalculatorException exception) {
 			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
 		}
 	}
-
+	/**
+	 * to  get the payinamount If purchasing amount is more than 100
+	 * @see assertEquals
+	 */
 	@Test
-	public void isPayinAmountforAmountGreaterThan100() {
-		log.info("is isPayinAmountforAmountGreaterThan100 **** ");
+	public void getPayinAmountforAmountGreaterThan100() {
+		log.info("is getPayinAmountforAmountGreaterThan100 **** ");
 		try {
 			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
-
-			user = new User("D", "D", "D");
+			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
+			user = new User(DEFAULT_KEY, DEFAULT_KEY, DEFAULT_KEY);
 			billPaymentInfo = new BillPaymentInfo(new Double(340));
 			billPaymentInfo.setUser(user);
+			billPaymentInfo.setPurchaseItems(purchaseItems);
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
 			assertEquals(new Double(325), billPaymentInfo.getPayableAmount());
-		} catch (MyBusinessException exception) {
+		} catch (RetailDiscountCalculatorException exception) {
 			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
 		}
 	}
+	/**
+	 * to  get the payinamount If purchasing amount is less than 100
+	 * @see assertEquals
+	 */
+	@Test
+	public void getPayinAmountforAmountlessthanThan100() {
+		log.info("is getPayinAmountforAmountlessthanThan100 **** ");
+		try {
+			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
+			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
+			purchaseItems = new PurchaseItems(DEFAULT_KEY,"Sweets");
+			user = new User(DEFAULT_KEY, DEFAULT_KEY, DEFAULT_KEY);
+			billPaymentInfo = new BillPaymentInfo(new Double(99));
+			billPaymentInfo.setUser(user);
+			billPaymentInfo.setPurchaseItems(purchaseItems);
+			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
+			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
+			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
+			assertEquals(new Double(99), billPaymentInfo.getPayableAmount());
+		} catch (RetailDiscountCalculatorException exception) {
+			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
-	@Test
-	public void userEqualsMethod() {
-		log.info("is userEqualsMethod **** ");
-		user = new User("D", "D", "D");
-		user2 = new User("D", "D", "D");
-		assertTrue(user.equals(user2));
+		}
 	}
+	/**
+	 * to  get the payinamount If purchasing item is grocery
+	 * @see assertEquals
+	 */
+	@Test
+	public void getPayinAmountforwithoutPercentageforGroceryItem() {
+		log.info("is getPayinAmountforwithoutPercentageforGroceryItem **** ");
+		try {
+			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
+			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
+			
+			user = new User(DEFAULT_KEY, DEFAULT_KEY, "2Y");
+			billPaymentInfo = new BillPaymentInfo(new Double(970.00));
+			billPaymentInfo.setUser(user);
+			purchaseItems = new PurchaseItems(GROCERY_VALUE,"Sweets");
+			billPaymentInfo.setPurchaseItems(purchaseItems);
+			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
+			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage(billPaymentInfo));
+			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
+			assertEquals(new Double(970.00), billPaymentInfo.getPayableAmount());
+		} catch (RetailDiscountCalculatorException exception) {
+			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
 
-	@Test
-	public void userHashcodeMethod() {
-		log.info("is userHashcodeMethod **** ");
-		user = new User("D", "D", "D");
-		user2 = new User("D", "D", "D");
-		assertTrue(user.hashCode() == user2.hashCode());
+		}
 	}
-	@Test
-	public void usertoStringMethod() {
-		log.info("is userHashcodeMethod **** ");
-		user = new User("D", "D", "D");
-		user2 = new User("D", "D", "D");
-		assertTrue(user.toString().equals(user2.toString()));
-	}
-	@Test
-	public void billPaymentEqualsMethod() {
-		log.info("is userEqualsMethod **** ");
-		billPaymentInfo =  new BillPaymentInfo(new Double(340));
-		billPaymentInfo2 = new BillPaymentInfo(new Double(340));;
-		assertTrue(billPaymentInfo.equals(billPaymentInfo2));
-	}
-
-	@Test
-	public void billPaymentHashcodeMethod() {
-		log.info("is userHashcodeMethod **** ");
-		billPaymentInfo =  new BillPaymentInfo(new Double(340));
-		billPaymentInfo2 = new BillPaymentInfo(new Double(340));;
-		assertTrue(billPaymentInfo.hashCode() == billPaymentInfo2.hashCode());
-	}
-	@Test
-	public void billPaymenttoStringMethod() {
-		log.info("is userHashcodeMethod **** ");
-		billPaymentInfo =  new BillPaymentInfo(new Double(340));
-		billPaymentInfo2 = new BillPaymentInfo(new Double(340));;
-		assertTrue(billPaymentInfo.toString().equals(billPaymentInfo2.toString()));
-	}
+	
 	@Test
 	public void exceptionCatchMethod() {
 		log.info("is exceptionCatchMethod **** ");
@@ -179,15 +206,15 @@ public class RetailDiscountCalculatorTest {
 			PercentageAllocatorService percentageAllocatorService = new PercentageAllocatorServiceImpl();
 			PayableAmountCalculatorService payableAmountCalculatorService = new PayableAmountCalculatorServiceImpl();
 
-			user = new User("", null, "D");
+			user = new User("", null, DEFAULT_KEY);
 			billPaymentInfo = new BillPaymentInfo(new Double(340));
 			billPaymentInfo.setUser(user);
 			log.info("Percentage**** " + percentageAllocatorService.getPercentage(billPaymentInfo));
 			billPaymentInfo.setPercentage(percentageAllocatorService.getPercentage( billPaymentInfo));
 			billPaymentInfo = payableAmountCalculatorService.doCalculatePayableAmount(billPaymentInfo);
 			assertEquals(new Double(325), billPaymentInfo.getPayableAmount());
-		} catch (MyBusinessException exception) {
-			log.info("***** MyBusinessException *** " + exception.getCode().getDescription());
+		} catch (RetailDiscountCalculatorException exception) {
+			log.error("***** MyBusinessException *** " + exception.getCode().getDescription());
 			assertEquals("00001",exception.getCode().getCode());
 
 		}
