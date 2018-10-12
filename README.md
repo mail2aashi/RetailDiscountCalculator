@@ -1,5 +1,6 @@
-[![codecov.io](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html)
+[![codecov.io](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html).
 
+[![UML class Diagrams](https://github.com/mail2aashi/RetailDiscountCalculator/tree/master/src/main/resources/uml).
 # RetailDiscountCalculator
 
 This is a Java Maven Applcation for Calculating PayinAmount Based on specifics Creteria provided below.
