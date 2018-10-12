@@ -7,7 +7,6 @@ This is a Java Maven Applcation for Calculating PayinAmount Based on specifics C
 1. User is Store employee 30% on Bill Amount 
 
 2. User is Affiliate  30% Discount on Bill Amount 
-
 3. If User is a Customer for 2 Years 5% Discount on Bill Amount .
 4. If Bill Amount is more than 100 each 100 will get 5% Discount.
 5. No Discount  for Grocery. 
