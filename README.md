@@ -1,6 +1,6 @@
-[![codecov.io](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html).
+![Code Covarage](https://github.com/mail2aashi/RetailDiscountCalculator/blob/master/src/test/resources/codecovarage/index.html).
 
-[![UML class Diagrams](https://github.com/mail2aashi/RetailDiscountCalculator/tree/master/src/main/resources/uml).
+![UML class Diagrams](https://github.com/mail2aashi/RetailDiscountCalculator/tree/master/src/main/resources/uml).
 # RetailDiscountCalculator
 
 This is a Java Maven Applcation for Calculating PayinAmount Based on specifics Creteria provided below.
@@ -43,10 +43,11 @@ Junit
 	
 command:	mvn compile
 	
-4. Run the test cases and generate the code code coverage
+4. Run the test cases and generate the  code coverage
 
 command:	mvn test
-Code coverage location : C:\FinalAssignement\RetailDiscountCalculator\target\jacoco-ut\
+
+Generated Code coverage location : RetailDiscountCalculator\target\jacoco-ut\
 Test Classes: com.assignment.domain.DomainObjectTest.java
 			  com.assignment.service.RetailDiscountCalculatorTest.java
 
@@ -56,7 +57,7 @@ Import the cloned project to eclipse as maven project
  
 Right click  -> run As -> maven test
 
-# Generating   Code coverage from Command Prompt
+# Generating   Code Coverage from Command Prompt
 
 Run the test cases and generate the code code coverage
 

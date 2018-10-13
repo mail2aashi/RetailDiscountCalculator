@@ -70,7 +70,6 @@ public class PercentageAllocatorServiceImpl implements PercentageAllocatorServic
 				return hundreds.intValue() * 5 ;
 			} else {
 				return 0.00;
-
 			}
 		} catch (Exception exception) {
 			log.error(exception);
